@@ -70,9 +70,11 @@ provided by `SolarSoftWare <https://www.lmsal.com/solarsoft/>`_.
 Units
 =====
 
-- Temperature is given in megakelvin (MK).
-- Emission measure is normalized to :math:`10^{49}\,\mathrm{cm^{-3}}`.
-- GOES XRS fluxes are returned in :math:`\mathrm{W\,m^{-2}}`.
+- Temperature: :math:`\mathrm{K}`
+- Emission measure: :math:`\mathrm{cm^{-3}}`
+- Differential emission measure: :math:`\mathrm{cm^{-3}\, K^{-1}}`
+- GOES XRS fluxes: :math:`\mathrm{W\,m^{-2}}`
+- GOES XRS response function: :math:`\mathrm{W\,m^{-2}\, (10^{49}\, cm^{-3})^{-1}}`
 
 License
 =======
