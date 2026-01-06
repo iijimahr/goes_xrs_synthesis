@@ -1,0 +1,12 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "goes_xrs_synthesis"
+description = "Synthesize GOES XRS flux from (differential) emission measure."
+version = "0.0.0"
+dependencies = ["scipy", "astropy", "numpy"]
+
+[project.optional-dependencies]
+dev = ["pytest", "sunkit-instruments", "sunpy", "matplotlib"]
