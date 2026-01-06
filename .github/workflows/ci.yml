@@ -3,6 +3,8 @@ name: Run tests
 on:
   push:
     branches: ["main"]
+  pull_request:
+    branches: ["main"]
   workflow_dispatch:
 
 jobs:
@@ -11,15 +13,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      # - name: Setup Python
-      #   uses: actions/setup-python@v5
-      #   with:
-      #     python-version: '3.13'
       - name: Install dependencies
         run: pip install -e ".[dev]"
       - name: Run unit tests
         run: pytest
   deploy:
+    if: github.event_name == 'push'
     needs: unit-testing
     runs-on: ubuntu-latest
     permissions:
@@ -37,10 +36,6 @@ jobs:
         uses: actions/checkout@v4
       - name: Setup Pages
         uses: actions/configure-pages@v5
-      # - name: Setup Python
-      #   uses: actions/setup-python@v5
-      #   with:
-      #     python-version: '3.13'
       - name: Install dependencies
         run: pip install -e ".[doc]"
       - name: Build site
