@@ -15,7 +15,8 @@ Synthesize GOES XRS flux from (differential) emission measure.
 ```shell
 git clone https://github.com/iijimahr/goes_xrs_synthesis.git
 cd goes_xrs_synthesis
-pip install ".[dev,doc]"
+python -m venv venv
+pip install -U pip && pip install -e ".[dev,doc]"
 ```
 
 ### Running unit tests with pytest
@@ -40,4 +41,10 @@ make test
 
 ```shell
 make doc
+```
+
+### Clean up
+
+```shell
+make clean
 ```
