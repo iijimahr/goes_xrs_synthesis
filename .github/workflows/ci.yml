@@ -1,0 +1,14 @@
+name: Run tests
+
+on: [push]
+
+jobs:
+  formatter-and-linter:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install dependencies
+        run: pip install -e ".[dev]"
+      - name: Run unit tests
+        run: pytest
