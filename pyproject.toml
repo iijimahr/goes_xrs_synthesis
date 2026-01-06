@@ -9,4 +9,7 @@ version = "0.0.0"
 dependencies = ["scipy", "astropy", "numpy"]
 
 [project.optional-dependencies]
-dev = ["pytest", "sunkit-instruments", "sunpy", "matplotlib"]
+dev = ["ipython", "pytest", "sunkit-instruments", "sunpy", "matplotlib"]
+
+[tool.pytest.ini_options]
+markers = ["slow: marks tests that take a long time to run"]

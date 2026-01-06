@@ -32,8 +32,9 @@ def download_file(query: dict) -> Path:
     Download a file from a URL and verify its SHA256 hash.
     """
     file_path = DATA_DIR / Path(query["url"]).name
-    file_path.parent.mkdir(parents=True, exist_ok=True)
-    _download_file(query["url"], file_path)
+    if not file_path.exists():
+        file_path.parent.mkdir(parents=True, exist_ok=True)
+        _download_file(query["url"], file_path)
     got = _sha256_file(file_path)
     if got.lower() != query["sha256"].lower():
         file_path.unlink(missing_ok=True)
