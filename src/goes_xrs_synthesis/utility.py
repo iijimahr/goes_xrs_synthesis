@@ -6,6 +6,16 @@ Utility functions for GOES XRS data.
 def flare_class_to_flux(flare_class: str) -> float:
     """
     Convert GOES XRS flare class string (e.g. 'C3.2') to flux in W/m^2.
+
+    Parameters
+    ----------
+    flare_class : str
+        Flare class string.
+
+    Returns
+    -------
+    float
+        Peak flux in W/m^2.
     """
     class_map = {"A": 1e-8, "B": 1e-7, "C": 1e-6, "M": 1e-5, "X": 1e-4}
     try:
@@ -19,6 +29,16 @@ def flare_class_to_flux(flare_class: str) -> float:
 def flux_to_flare_class(peak_flux: float) -> str:
     """
     Convert peak GOES XRS long-channel flux [W/m^2] to flare class string.
+
+    Parameters
+    ----------
+    peak_flux : float
+        Peak flux in W/m^2.
+
+    Returns
+    -------
+    str
+        Flare class string.
     """
     if peak_flux < 1e-7:
         base, letter = 1e-8, "A"

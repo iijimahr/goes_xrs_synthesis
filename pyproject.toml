@@ -10,7 +10,7 @@ version = "0.0.0"
 dependencies = ["astropy", "numpy"]
 
 [project.optional-dependencies]
-dev = ["ipython", "pytest", "sunkit-instruments", "sunpy"]
+dev = ["pytest", "sunkit-instruments", "sunpy"]
 doc = ["sphinx", "sphinx-rtd-theme"]
 
 [tool.pytest.ini_options]

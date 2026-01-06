@@ -18,7 +18,47 @@ Installation
 To install the package, use pip:
 
 .. code-block:: bash
+
    pip install git+https://github.com/iijimahr/goes_xrs_synthesis.git
+
+
+Examples
+========
+
+Define a logarithmic temperature grid:
+
+.. doctest::
+
+   >>> import numpy as np
+   >>> from goes_xrs_synthesis import synth_dem
+   >>> temp = np.logspace(6.0, 7.2, 200)
+
+Define a Gaussian DEM in log10(T):
+
+.. doctest::
+
+   >>> logT0 = 6.5
+   >>> sigma = 0.15
+   >>> dem = 1e22 * np.exp(-0.5 * ((np.log10(temp) - logT0) / sigma) ** 2)
+
+Synthesize GOES XRS fluxes:
+
+.. doctest::
+
+   >>> flux_long, flux_short = synth_dem(temp, dem)
+
+The outputs are scalars and finite:
+
+.. doctest::
+   :options: +ELLIPSIS
+
+   >>> flux_long.shape
+   ()
+   >>> flux_short.shape
+   ()
+   >>> flux_long, flux_short
+   (np.float64(6.7...e-27), np.float64(1.7...e-28))
+
 
 Data
 ====

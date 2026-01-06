@@ -6,6 +6,7 @@ extensions = [
     "sphinx.ext.autodoc",  # Generate HTML files from docstrings
     "sphinx.ext.napoleon",  # Enable Google/NumPy style docstrings
     "sphinx.ext.viewcode",  # Add links to highlighted source code
+    "sphinx.ext.doctest",  # Enable test code snippets
 ]
 templates_path = ["_templates"]
 exclude_patterns = []
