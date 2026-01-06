@@ -34,28 +34,24 @@ def test_synthesize_isothermal():
     # temperature/em from the *same* truncated series
     obs_em = goes_xrs.calculate_temperature_em(obs_flux, abundance="coronal")
 
-    for idx in range(0, 2001, 500):
-        # Observed flux from the *same* truncated series and same idx
-        obs_short = float(obs_flux.quantity("xrsa")[idx].to_value(u.W / u.m**2))
-        obs_long = float(obs_flux.quantity("xrsb")[idx].to_value(u.W / u.m**2))
+    idx = range(0, 2001, 500)
 
-        T_est = float(obs_em.quantity("temperature")[idx].to_value(u.K))
-        EM_est = float(
-            obs_em.quantity("emission_measure")[idx].to_value(u.cm**-3)
-        )
+    obs_short = obs_flux.quantity("xrsa")[idx].to_value(u.W / u.m**2)
+    obs_long = obs_flux.quantity("xrsb")[idx].to_value(u.W / u.m**2)
+    temp = obs_em.quantity("temperature")[idx].to_value(u.K)
+    em = obs_em.quantity("emission_measure")[idx].to_value(u.cm**-3)
 
-        inv_long, inv_short = synth_isothermal(
-            temp=T_est, em=EM_est, goes_num=goes_num
-        )
+    inv_long, inv_short = synth_isothermal(temp=temp, em=em, goes_num=goes_num)
 
-        # Scale for SDAC/GSFC data if needed
-        if "SDAC/GSFC" == obs_flux.meta.metas[0].get("Origin"):
+    # Scale for SDAC/GSFC data if needed
+    if "SDAC/GSFC" == obs_flux.meta.metas[0].get("Origin"):
+        if 8 <= goes_num <= 16:
             obs_long /= 0.7
             obs_short /= 0.85
 
-        rtol = 0.1
-        assert np.isclose(inv_long, obs_long, rtol=rtol)
-        assert np.isclose(inv_short, obs_short, rtol=rtol)
+    rtol = 0.01
+    assert np.allclose(inv_long, obs_long, rtol=rtol)
+    assert np.allclose(inv_short, obs_short, rtol=rtol)
 
 
 if __name__ == "__main__":

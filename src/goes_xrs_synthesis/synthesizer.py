@@ -2,6 +2,7 @@
 Synthesizing GOES XRS fluxes from (differential) emission measure (DEM).
 """
 
+from dataclasses import dataclass
 from pathlib import Path
 
 import numpy as np
@@ -22,7 +23,7 @@ def get_goes_xrs_response_table() -> Path:
     return download_file(query)
 
 
-def define_satellite_index(goes_num: int = 17) -> int:
+def define_satellite_index(goes_num) -> int:
     """
     Define the satellite index used in the response table
     based on GOES satellite number.
@@ -44,27 +45,90 @@ def load_goes_xrs_response_table() -> fits.fitsrec.FITS_rec:
         return hdul[1].data.copy()
 
 
-def synth_isothermal(
-    temp: float = 1.0e6, em: float = 1e49, goes_num: int = 17
-) -> tuple[float, float]:
+@dataclass(frozen=True, slots=True)
+class GOESXRSResponse:
+    """GOES XRS temperature response functions.
+
+    Attributes
+    ----------
+    temp : ndarray
+        Temperature grid [MK].
+    long : ndarray
+        Long-channel response [(W m^-2) / (1e49 cm^-3)].
+    short : ndarray
+        Short-channel response [(W m^-2) / (1e49 cm^-3)].
     """
-    Synthesize GOES XRS fluxes from DEM.
+
+    temp: np.ndarray
+    long: np.ndarray
+    short: np.ndarray
+
+
+def get_response_function(goes_num: int = 17) -> GOESXRSResponse:
+    """
+    Get the GOES XRS response functions.
+
+    Parameters
+    ----------
+    goes_num : int, optional
+        GOES satellite number (default: 17).
+
+    Returns
+    -------
+    GOESXRSResponse
+        Temperature grid [MK] and channel response functions
+        [(W m^-2) / (1e49 cm^-3)].
     """
     tab = load_goes_xrs_response_table()
     sat = define_satellite_index(goes_num)
 
     # Temperature grid (MK)
-    tab_temp = tab["TEMP_MK"][sat]
+    temp = np.asanyarray(tab["TEMP_MK"][sat], dtype=np.float64)
 
     # Compute response function and scale (W/m^2) / (1e49 cm^-3)
     scale = 10.0 ** (49.0 - tab["ALOG10EM"][sat])  # -> per 1e49
 
     # Use response functions for coronal abundance
-    resp_long = tab["FLONG_COR"][sat] * scale
-    resp_short = tab["FSHORT_COR"][sat] * scale
+    resp_long = np.asarray(tab["FLONG_COR"][sat], dtype=np.float64) * scale
+    resp_short = np.asarray(tab["FSHORT_COR"][sat], dtype=np.float64) * scale
 
-    # Synthesized flux (W/m^2)
-    flux_long = np.interp(temp / 1.0e6, tab_temp, resp_long) * (em / 1e49)
-    flux_short = np.interp(temp / 1.0e6, tab_temp, resp_short) * (em / 1e49)
+    return GOESXRSResponse(
+        temp=temp,
+        long=resp_long,
+        short=resp_short,
+    )
 
+
+def synth_isothermal(
+    temp: np.ndarray, em: np.ndarray, goes_num: int = 17
+) -> tuple[np.ndarray, np.ndarray]:
+    """
+    Synthesize GOES XRS flux from isothermal emission measure.
+
+    Parameters
+    ----------
+    temp : np.ndarray
+        Temperature [K]
+    em : np.ndarray
+        Emission measure [cm^-3]
+    goes_num : int, optional
+        GOES satellite number, by default 17
+
+    Returns
+    -------
+    tuple[np.ndarray, np.ndarray]
+        Synthesized fluxes in the long and short channels [W/m^2]
+    """
+    temp = np.asarray(temp, dtype=np.float64)
+    em = np.asarray(em, dtype=np.float64)
+    assert temp.shape == em.shape
+
+    r = get_response_function(goes_num)
+
+    temp_mk = temp.flatten() / 1.0e6
+    shape = em.shape
+    em49 = em / 1e49
+
+    flux_long = np.interp(temp_mk, r.temp, r.long).reshape(shape) * (em49)
+    flux_short = np.interp(temp_mk, r.temp, r.short).reshape(shape) * (em49)
     return flux_long, flux_short

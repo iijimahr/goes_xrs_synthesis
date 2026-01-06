@@ -12,7 +12,7 @@ def flare_class_to_flux(flare_class: str) -> float:
         letter = flare_class[0].upper()
         scale = float(flare_class[1:]) if len(flare_class) > 1 else 1.0
         return class_map[letter] * scale
-    except KeyError:
+    except (KeyError, ValueError, IndexError, TypeError):
         raise ValueError(f"Invalid flare class: {flare_class}")
 
 
