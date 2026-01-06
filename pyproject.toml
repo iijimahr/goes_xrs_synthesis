@@ -5,11 +5,19 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "goes_xrs_synthesis"
 description = "Synthesize GOES XRS flux from (differential) emission measure."
+authors = [{ name = "Haruhisa Iijima" }]
 version = "0.0.0"
-dependencies = ["scipy", "astropy", "numpy"]
+dependencies = ["astropy", "numpy"]
 
 [project.optional-dependencies]
-dev = ["ipython", "pytest", "sunkit-instruments", "sunpy", "matplotlib"]
+dev = [
+  "ipython",
+  "pytest",
+  "sunkit-instruments",
+  "sunpy",
+  "sphinx",
+  "sphinx-rtd-theme",
+]
 
 [tool.pytest.ini_options]
 markers = ["slow: marks tests that take a long time to run"]
