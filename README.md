@@ -9,3 +9,7 @@ Synthesize GOES XRS flux from (differential) emission measure.
 ```shell
 pip install git+https://github.com/iijimahr/goes_xrs_synthesis.git
 ```
+
+## Documentation
+
+<https://iijimahr.github.io/goes_xrs_synthesis/>

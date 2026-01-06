@@ -10,14 +10,8 @@ version = "0.0.0"
 dependencies = ["astropy", "numpy"]
 
 [project.optional-dependencies]
-dev = [
-  "ipython",
-  "pytest",
-  "sunkit-instruments",
-  "sunpy",
-  "sphinx",
-  "sphinx-rtd-theme",
-]
+dev = ["ipython", "pytest", "sunkit-instruments", "sunpy"]
+doc = ["sphinx", "sphinx-rtd-theme"]
 
 [tool.pytest.ini_options]
 markers = ["slow: marks tests that take a long time to run"]
