@@ -11,7 +11,7 @@ from sunpy import timeseries as ts
 
 from goes_xrs_synthesis.synthesizer import (
     load_goes_xrs_response_table,
-    synthesize_isothermal,
+    synth_isothermal,
 )
 
 
@@ -44,7 +44,7 @@ def test_synthesize_isothermal():
             obs_em.quantity("emission_measure")[idx].to_value(u.cm**-3)
         )
 
-        inv_long, inv_short = synthesize_isothermal(
+        inv_long, inv_short = synth_isothermal(
             temp=T_est, em=EM_est, goes_num=goes_num
         )
 

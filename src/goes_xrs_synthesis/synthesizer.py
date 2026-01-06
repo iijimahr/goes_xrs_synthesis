@@ -2,13 +2,15 @@
 Synthesizing GOES XRS fluxes from (differential) emission measure (DEM).
 """
 
+from pathlib import Path
+
 import numpy as np
 from astropy.io import fits
 
 from .downloader import download_file
 
 
-def get_goes_xrs_response_table() -> str:
+def get_goes_xrs_response_table() -> Path:
     """
     Get the path to the GOES XRS response FITS file.
     Downloads it if not already cached.
@@ -42,7 +44,7 @@ def load_goes_xrs_response_table() -> fits.fitsrec.FITS_rec:
         return hdul[1].data.copy()
 
 
-def synthesize_isothermal(
+def synth_isothermal(
     temp: float = 1.0e6, em: float = 1e49, goes_num: int = 17
 ) -> tuple[float, float]:
     """

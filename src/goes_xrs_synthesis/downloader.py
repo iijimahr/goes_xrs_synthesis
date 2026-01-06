@@ -19,7 +19,7 @@ def _sha256_file(path: Path, chunk_size: int = 1024 * 1024) -> str:
     return h.hexdigest()
 
 
-def _download_file(url: str, dst: Path, timeout: int = 60):
+def _download_file(url: str, dst: Path, timeout: int = 60) -> None:
     import urllib.request
 
     req = urllib.request.Request(url, headers={"User-Agent": "yourpkg/1.0"})
