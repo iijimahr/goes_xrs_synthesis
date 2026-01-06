@@ -1,5 +1,5 @@
 """
-Downloader of GOES XRS response FITS file.
+File downloader with SHA256 verification.
 """
 
 import hashlib
