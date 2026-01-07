@@ -166,11 +166,10 @@ def synth_dem(
     assert dem.shape[axis] == temp.shape[0]
 
     # Interpolate response function
+    # * left/right=0.0: zero response outside tabulated range
     r = get_response_function(goes_num)
-    assert temp.min() / 1.0e6 >= r.temp.min()
-    assert temp.max() / 1.0e6 <= r.temp.max()
-    r_long = np.interp(temp / 1.0e6, r.temp, r.long)
-    r_short = np.interp(temp / 1.0e6, r.temp, r.short)
+    r_long = np.interp(temp / 1.0e6, r.temp, r.long, left=0.0, right=0.0)
+    r_short = np.interp(temp / 1.0e6, r.temp, r.short, left=0.0, right=0.0)
 
     # Integrate DEM * response over temperature
     dem_Tlast = np.moveaxis(dem, axis, -1)  # for broadcasting
