@@ -7,11 +7,32 @@ name = "goes_xrs_synthesis"
 description = "Synthesize GOES XRS flux from (differential) emission measure."
 authors = [{ name = "Haruhisa Iijima" }]
 version = "0.0.0"
-dependencies = ["astropy", "numpy"]
+dependencies = [
+  "astropy",
+  "numpy>=2.0", # for numpy.trapezoid
+]
+requires-python = ">=3.10"
 
 [project.optional-dependencies]
-dev = ["pytest", "sunkit-instruments", "sunpy"]
+dev = ["pytest", "ruff", "ty", "sunkit-instruments", "sunpy"]
 doc = ["sphinx", "sphinx-rtd-theme"]
 
 [tool.pytest.ini_options]
 markers = ["slow: marks tests that take a long time to run"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+fix = true
+
+[tool.ruff.lint]
+select = [
+  "E",  # pycodestyle error
+  "F",  # pyflakes
+  "I",  # isort
+  "B",  # flake8-bugbear
+  "UP", # pyupgrade
+]
+ignore = [
+  "E203", # Black compatibility
+]

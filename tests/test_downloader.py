@@ -32,4 +32,4 @@ def test_download_file_fails():
     except ValueError as e:
         assert "SHA256 mismatch for downloaded file." in str(e)
     else:
-        assert False, "Expected ValueError not raised"
+        raise AssertionError("Expected ValueError not raised")

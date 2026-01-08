@@ -8,13 +8,19 @@ on:
   workflow_dispatch:
 
 jobs:
-  unit-testing:
+  testing:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Install dependencies
         run: pip install -e ".[dev]"
+      - name: Check format
+        run: ruff format --check .
+      - name: Lint code
+        run: |
+          ruff check .
+          ty check .
       - name: Run unit tests
         run: make pytest
   deploy:

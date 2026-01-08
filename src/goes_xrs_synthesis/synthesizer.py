@@ -3,10 +3,12 @@ Synthesizing GOES XRS fluxes from (differential) emission measure (DEM).
 """
 
 from dataclasses import dataclass
+from numbers import Real
 from pathlib import Path
 
 import numpy as np
 from astropy.io import fits
+from numpy.typing import ArrayLike, NDArray
 
 from .downloader import download_file
 
@@ -51,17 +53,17 @@ class GOESXRSResponse:
 
     Attributes
     ----------
-    temp : ndarray
+    temp : NDArray[np.float64]
         Temperature grid [MK].
-    long : ndarray
+    long : NDArray[np.float64]
         Long-channel response [(W m^-2) / (1e49 cm^-3)].
-    short : ndarray
+    short : NDArray[np.float64]
         Short-channel response [(W m^-2) / (1e49 cm^-3)].
     """
 
-    temp: np.ndarray
-    long: np.ndarray
-    short: np.ndarray
+    temp: NDArray[np.float64]
+    long: NDArray[np.float64]
+    short: NDArray[np.float64]
 
 
 def get_response_function(goes_num: int = 17) -> GOESXRSResponse:
@@ -85,7 +87,7 @@ def get_response_function(goes_num: int = 17) -> GOESXRSResponse:
     # Temperature grid (MK)
     temp = np.asanyarray(tab["TEMP_MK"][sat], dtype=np.float64)
 
-    # Compute response function and scale (W/m^2) / (1e49 cm^-3)
+    # Compute response function and scale (W m^-2) / (1e49 cm^-3)
     scale = 10.0 ** (49.0 - tab["ALOG10EM"][sat])  # -> per 1e49
 
     # Use response functions for coronal abundance
@@ -100,24 +102,26 @@ def get_response_function(goes_num: int = 17) -> GOESXRSResponse:
 
 
 def synth_isothermal(
-    temp: np.ndarray, em: np.ndarray, goes_num: int = 17
-) -> tuple[np.ndarray, np.ndarray]:
+    temp: ArrayLike | Real, em: ArrayLike | Real, goes_num: int = 17
+) -> tuple[NDArray[np.float64], NDArray[np.float64]]:
     """
     Synthesize GOES XRS flux from isothermal emission measure.
 
     Parameters
     ----------
-    temp : np.ndarray
-        Temperature [K]
-    em : np.ndarray
-        Emission measure [cm^-3]
+    temp : ArrayLike | Real
+        Temperature [K].
+        Will be converted to float64.
+    em : ArrayLike | Real
+        Emission measure [cm^-3].
+        Will be converted to float64.
     goes_num : int, optional
-        GOES satellite number, by default 17
+        GOES satellite number, by default 17.
 
     Returns
     -------
-    tuple[np.ndarray, np.ndarray]
-        Synthesized fluxes in the long and short channels [W/m^2]
+    tuple[NDArray[np.float64], NDArray[np.float64]]
+        Synthesized fluxes in the long and short channels [W m^-2].
     """
     temp = np.asarray(temp, dtype=np.float64)
     em = np.asarray(em, dtype=np.float64)
@@ -135,26 +139,31 @@ def synth_isothermal(
 
 
 def synth_dem(
-    temp: np.ndarray, dem: np.ndarray, axis: int = -1, goes_num: int = 17
-) -> tuple[np.ndarray, np.ndarray]:
+    temp: ArrayLike | Real,
+    dem: ArrayLike | Real,
+    axis: int = -1,
+    goes_num: int = 17,
+) -> tuple[NDArray[np.float64], NDArray[np.float64]]:
     """
     Synthesize GOES XRS flux from differential emission measure (DEM).
 
     Parameters
     ----------
-    temp : np.ndarray
-        Temperature [K]
-    dem : np.ndarray
-        Differential emission measure [cm^-3 K^-1]
+    temp : ArrayLike | Real
+        Temperature [K].
+        Will be converted to float64.
+    dem : ArrayLike | Real
+        Differential emission measure [cm^-3 K^-1].
+        Will be converted to float64.
     axis : int, optional
-        Temperature axis in `dem`, by default -1
+        Temperature axis in `dem`, by default -1.
     goes_num : int, optional
-        GOES satellite number, by default 17 (GOES-17)
+        GOES satellite number, by default 17 (GOES-17).
 
     Returns
     -------
-    tuple[np.ndarray, np.ndarray]
-        Synthesized fluxes in the long and short channels [W/m^2]
+    tuple[NDArray[np.float64], NDArray[np.float64]]
+        Synthesized fluxes in the long and short channels [W m^-2].
     """
     temp = np.asarray(temp, dtype=np.float64)
     assert temp.ndim == 1

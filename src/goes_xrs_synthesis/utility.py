@@ -5,7 +5,8 @@ Utility functions for GOES XRS data.
 
 def flare_class_to_flux(flare_class: str) -> float:
     """
-    Convert GOES XRS flare class string (e.g. 'C3.2') to flux in W/m^2.
+    Convert flare class string (e.g. 'C3.2')
+    to peak GOES XRS long-channel flux [W m^-2].
 
     Parameters
     ----------
@@ -15,25 +16,26 @@ def flare_class_to_flux(flare_class: str) -> float:
     Returns
     -------
     float
-        Peak flux in W/m^2.
+        Peak flux in W m^-2.
     """
     class_map = {"A": 1e-8, "B": 1e-7, "C": 1e-6, "M": 1e-5, "X": 1e-4}
     try:
         letter = flare_class[0].upper()
         scale = float(flare_class[1:]) if len(flare_class) > 1 else 1.0
         return class_map[letter] * scale
-    except (KeyError, ValueError, IndexError, TypeError):
-        raise ValueError(f"Invalid flare class: {flare_class}")
+    except (KeyError, ValueError, IndexError, TypeError) as err:
+        raise ValueError(f"Invalid flare class: {flare_class}") from err
 
 
 def flux_to_flare_class(peak_flux: float) -> str:
     """
-    Convert peak GOES XRS long-channel flux [W/m^2] to flare class string.
+    Convert peak GOES XRS long-channel flux [W m^-2]
+    to flare class string (e.g. 'C3.2').
 
     Parameters
     ----------
     peak_flux : float
-        Peak flux in W/m^2.
+        Peak flux in W m^-2.
 
     Returns
     -------

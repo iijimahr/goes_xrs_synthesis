@@ -6,6 +6,8 @@
 test:
 	@make pytest
 	@make doctest
+	@make lint
+	@make format
 
 .PHONY: pytest
 pytest:
@@ -15,6 +17,14 @@ pytest:
 doctest:
 	sphinx-build -b doctest docs docs/_build/doctest
 
+.PHONY: lint
+lint:
+	ruff check .
+	ty check .
+
+.PHONY: format
+format:
+	ruff format .
 
 .PHONY: docs
 docs:
@@ -22,7 +32,7 @@ docs:
 
 .PHONY: clean
 clean:
-	rm -rf docs/_build .pytest_cache
+	rm -rf docs/_build .pytest_cache .ruff_cache
 	find . -type d -name "*.egg-info" -exec rm -rf {} +
 	find . -type d -name "__pycache__" -exec rm -rf {} +
 	find . -type f -name "*.pyc" -delete
