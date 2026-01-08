@@ -20,32 +20,12 @@ python -m venv venv
 pip install -U pip && pip install -e ".[dev,doc]"
 ```
 
-### Running unit tests with pytest
+### Task automation with Makefile
 
 ```shell
-make pytest
-```
-
-### Running samples with doctests
-
-```shell
-make doctest
-```
-
-### Running all tests
-
-```shell
-make test
-```
-
-### Building documentation
-
-```shell
-make doc
-```
-
-### Clean up
-
-```shell
-make clean
+make test         # Run tests
+make pytest       # Run pytest
+make doctest      # Run doctest
+make docs         # Build documentation
+make clean        # Clean up build artifacts
 ```

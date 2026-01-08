@@ -16,8 +16,8 @@ doctest:
 	sphinx-build -b doctest docs docs/_build/doctest
 
 
-.PHONY: doc
-doc:
+.PHONY: docs
+docs:
 	sphinx-build -b html docs docs/_build/html
 
 .PHONY: clean
