@@ -11,6 +11,9 @@ extensions = [
 templates_path = ["_templates"]
 exclude_patterns = []
 
+# Autodoc settings
+autodoc_typehints = "description"
+
 html_theme = "sphinx_rtd_theme"
 html_context = {
     "display_github": True,

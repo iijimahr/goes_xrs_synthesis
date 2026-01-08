@@ -24,7 +24,6 @@ lint:
 
 .PHONY: type-check
 type-check:
-	ruff check .
 	ty check .
 
 .PHONY: format

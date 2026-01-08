@@ -3,7 +3,6 @@ Synthesizing GOES XRS fluxes from (differential) emission measure (DEM).
 """
 
 from dataclasses import dataclass
-from numbers import Real
 from pathlib import Path
 
 import numpy as np
@@ -102,17 +101,17 @@ def get_response_function(goes_num: int = 17) -> GOESXRSResponse:
 
 
 def synth_isothermal(
-    temp: ArrayLike | Real, em: ArrayLike | Real, goes_num: int = 17
+    temp: ArrayLike, em: ArrayLike, goes_num: int = 17
 ) -> tuple[NDArray[np.float64], NDArray[np.float64]]:
     """
     Synthesize GOES XRS flux from isothermal emission measure.
 
     Parameters
     ----------
-    temp : ArrayLike | Real
+    temp : ArrayLike
         Temperature [K].
         Will be converted to float64.
-    em : ArrayLike | Real
+    em : ArrayLike
         Emission measure [cm^-3].
         Will be converted to float64.
     goes_num : int, optional
@@ -139,8 +138,8 @@ def synth_isothermal(
 
 
 def synth_dem(
-    temp: ArrayLike | Real,
-    dem: ArrayLike | Real,
+    temp: ArrayLike,
+    dem: ArrayLike,
     axis: int = -1,
     goes_num: int = 17,
 ) -> tuple[NDArray[np.float64], NDArray[np.float64]]:
@@ -149,10 +148,10 @@ def synth_dem(
 
     Parameters
     ----------
-    temp : ArrayLike | Real
+    temp : ArrayLike
         Temperature [K].
         Will be converted to float64.
-    dem : ArrayLike | Real
+    dem : ArrayLike
         Differential emission measure [cm^-3 K^-1].
         Will be converted to float64.
     axis : int, optional

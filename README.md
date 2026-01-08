@@ -23,9 +23,7 @@ pip install -U pip && pip install -e ".[dev,docs]"
 ### Task automation with Makefile
 
 ```shell
-make test         # Run tests
-make pytest       # Run pytest
-make doctest      # Run doctest
+make test         # Run all tests
 make docs         # Build documentation
 make clean        # Clean up build artifacts
 ```
