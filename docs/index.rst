@@ -47,7 +47,7 @@ Synthesize GOES XRS fluxes:
 
    >>> flux_long, flux_short = synth_dem(temp, dem)
 
-The outputs are scalars and finite:
+The output is a pair of scalars or vectors:
 
 .. doctest::
    :options: +ELLIPSIS
@@ -58,7 +58,6 @@ The outputs are scalars and finite:
    ()
    >>> flux_long, flux_short
    (np.float64(6.7...e-27), np.float64(1.7...e-28))
-
 
 Data
 ====
