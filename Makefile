@@ -6,6 +6,7 @@
 test:
 	@make pytest
 	@make doctest
+	@make type-check
 	@make lint
 	@make format-check
 
@@ -19,6 +20,10 @@ doctest:
 
 .PHONY: lint
 lint:
+	ruff check .
+
+.PHONY: type-check
+type-check:
 	ruff check .
 	ty check .
 
