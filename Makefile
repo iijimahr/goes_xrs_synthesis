@@ -7,7 +7,7 @@ test:
 	@make pytest
 	@make doctest
 	@make lint
-	@make format
+	@make format-check
 
 .PHONY: pytest
 pytest:
@@ -25,6 +25,10 @@ lint:
 .PHONY: format
 format:
 	ruff format .
+
+.PHONY: format-check
+format-check:
+	ruff format --check .
 
 .PHONY: docs
 docs:

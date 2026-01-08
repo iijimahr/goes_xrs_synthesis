@@ -17,7 +17,7 @@ git clone https://github.com/iijimahr/goes_xrs_synthesis.git
 cd goes_xrs_synthesis
 python -m venv venv
 . venv/bin/activate
-pip install -U pip && pip install -e ".[dev,doc]"
+pip install -U pip && pip install -e ".[dev,docs]"
 ```
 
 ### Task automation with Makefile

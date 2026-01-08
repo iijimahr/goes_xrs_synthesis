@@ -15,7 +15,7 @@ requires-python = ">=3.10"
 
 [project.optional-dependencies]
 dev = ["pytest", "ruff", "ty", "sunkit-instruments", "sunpy"]
-doc = ["sphinx", "sphinx-rtd-theme"]
+docs = ["sphinx", "sphinx-rtd-theme"]
 
 [tool.pytest.ini_options]
 markers = ["slow: marks tests that take a long time to run"]
