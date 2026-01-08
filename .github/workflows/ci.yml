@@ -19,14 +19,16 @@ jobs:
           cache: "pip"
       - name: Install dependencies
         run: |
+          python -m venv venv
+          . venv/bin/activate
           pip install -U pip
           pip install -e ".[dev]"
       - name: Check format
-        run: make format-check
+        run: . venv/bin/activate && make format-check
       - name: Lint code
-        run: make lint
+        run: . venv/bin/activate && make lint
       - name: Run unit tests
-        run: make pytest
+        run: . venv/bin/activate && make pytest
   deploy:
     if: github.event_name == 'push'
     needs: quality-check
@@ -52,12 +54,14 @@ jobs:
           cache: "pip"
       - name: Install dependencies
         run: |
+          python -m venv venv
+          . venv/bin/activate
           pip install -U pip
           pip install -e ".[docs]"
       - name: Run doctests
-        run: make doctest
+        run: . venv/bin/activate && make doctest
       - name: Build documentation
-        run: make docs
+        run: . venv/bin/activate && make docs
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
