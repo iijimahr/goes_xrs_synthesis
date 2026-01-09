@@ -14,7 +14,7 @@ exclude_patterns = []
 # Autodoc settings
 autodoc_typehints = "description"
 
-html_theme = "sphinx_rtd_theme"
+html_theme = "bizstyle"
 html_context = {
     "display_github": True,
     "github_user": "iijimahr",
