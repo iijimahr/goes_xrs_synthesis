@@ -47,7 +47,7 @@ Synthesize GOES XRS fluxes:
 
    >>> flux_long, flux_short = synth_dem(temp, dem)
 
-The output is a pair of scalars or vectors:
+The output is a pair of scalars or arrays:
 
 .. doctest::
    :options: +ELLIPSIS
